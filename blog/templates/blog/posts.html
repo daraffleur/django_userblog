@@ -1,0 +1,67 @@
+{% extends "blog/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+    <h2>List of Posts</h2>
+
+    <div class="pull-left">
+        <form action="{% url 'from_old_to_new' %}" method='get'>
+            {% buttons %}
+                <button class="btn btn-dark" type='submit'>From Old to New</button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+    <div class="pull-left col-xs-2">
+        <form action="{% url 'from_new_to_old' %}" method='get'>
+            {% buttons %}
+                <button class="btn btn-dark btn-block" type='submit'>From New to Old</button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+    <div class="pull-left col-xs-2">
+        <form action="{% url 'from_last_24_hours' %}" method='get'>
+            {% buttons %}
+                <button class=" btn btn-dark btn-block" type='submit'>From the last 24 hours</button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+    <div class="pull-left col-xs-2">
+        <form action="{% url 'current_user_posts' %}" method='get'>
+            {% buttons %}
+                <button class="btn btn-dark btn-block" type='submit'>My posts</button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+    <div class="pull-right">
+        <form action="{% url 'new_post' %}" method='get'>
+            {% buttons %}
+                <button class="btn btn-link" type='submit'>Click here to create new post</button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+    <div class="panel-body"></div>
+{% endblock header %}
+
+{% block content %}
+    {% for post in posts %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>
+                    <img src="{{ post.cover.url }}" width="100" height="100"> {{ post.user }} - {{ post.date_added }}
+                    <small>
+                    </small>
+                </h3>
+            </div>
+            <div class="panel-body">
+                {{ post.body|linebreaks }}
+            </div>
+        </div>
+        {% empty %}
+        No posts have been added yet.
+    {% endfor %}
+{% endblock content %}
